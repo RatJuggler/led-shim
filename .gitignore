@@ -29,3 +29,5 @@ sphinx.virtualenv
 .pytest_cache/
 .tox/
 .vscode/
+venv/
+
