@@ -16,25 +16,24 @@ drops = []
 class Drop:
 
     def __init__(self):
-        self.falling = 0
+        self.falling = 27
         self.trail = randrange(3, 8)
-        self.intensity_step = 255 / self.trail
+        self.intensity_step = 255 // self.trail
         self.speed = randrange(1, 3)
 
 
     def fall(self, tick):
-        if tick % self.speed == 0.0:
-            self.falling += 1
-            if self.falling > (28 + self.trail): self.falling = 0
+        if tick % self.speed == 0:
+            self.falling -= 1
 
 
 def rain_drop(drop):
-    intensity = 0
-    for i in range(drop.trail, 0, -1):
-        intensity += drop.intensity_step
-        pixel = drop.falling - i
+    intensity = 255
+    for i in range(drop.trail):
+        pixel = drop.falling + i
         if 0 <= pixel < 28:
             ledshim.set_pixel(pixel, 0, intensity, 0)
+        intensity -= drop.intensity_step
 
 try:
     while True:
@@ -45,7 +44,7 @@ try:
             rain_drop(drops[i])
             drops[i].fall(tick)
         ledshim.show()
-        drops = [drop for drop in drops if drop.falling != 0]
+        drops = [drop for drop in drops if drop.falling + drop.trail >= 0]
         tick += 1
         sleep(0.02)
 except KeyboardInterrupt:
