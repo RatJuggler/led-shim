@@ -21,7 +21,6 @@ class Drop:
         self.intensity_step = 255 // self.trail
         self.speed = randrange(1, 3)
 
-
     def fall(self, tick):
         if tick % self.speed == 0:
             self.falling -= 1
@@ -34,6 +33,7 @@ def rain_drop(drop):
         if 0 <= pixel < 28:
             ledshim.set_pixel(pixel, 0, intensity, 0)
         intensity -= drop.intensity_step
+
 
 try:
     while True:
